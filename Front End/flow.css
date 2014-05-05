@@ -1,0 +1,17 @@
+td{
+	vertical-align: text-top;
+	text-align: center;
+	width: 10%;
+}
+button.argument{
+	width: 100%;
+}
+
+button.speech{
+	width: 100%;
+}
+
+.clock{
+	position: relative;
+	left: 36%;
+}

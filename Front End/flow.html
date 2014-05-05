@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<meta charset="utf-8"> 
+		<link rel='stylesheet' href='/assets/css/bootstrap.css'>
+		<link rel='stylesheet' href='/assets/css/flipclock.css'>
+		<link rel='stylesheet' href='/assets/css/flow.css'>
+		<title>Cheetah Blog</title>
+	</head>
+	<body>
+		<div class="container">
+		<div class="page-header">
+		<h1>Cheetah Blog</h1>
+		<h3>Time-Sensitive Microblogging for Parli</h3>
+		<p>Other debate coming soon</p>
+		</div>
+		<div style="text-align: center">
+		<div style="text-align: center" class='clock'></div>
+		<button class="btn btn-lg btn-success" id="start">Start</button><button class="btn btn-lg btn-danger" id="stop">Stop</button>
+		</div>
+		<table class="table" id="flowTable">
+		<td class="column" id="1AC">
+			<button class="speech btn btn-lg btn-default">1AC</button><br>
+			<input class="current form-control" type="text"></input>
+		</td>
+		<td class="column" id="1NC">
+			<button class="speech btn btn-lg btn-default">1NC</button><br>
+		</td>
+		<td class="column" id="2AC">
+			<button class="speech btn btn-lg btn-default">2AC</button><br>
+		</td>
+		<td class="column" id="2NC">
+			<button class="speech btn btn-lg btn-default">2NC</button><br>
+		</td>
+		<td class="column" id="1NR">
+			<button class="speech btn btn-lg btn-default">1NR</button><br>
+		</td>
+		<td class="column" id="1AR">
+			<button class="speech btn btn-lg btn-default">1AR</button><br>
+		</td>
+		</table>
+		<script src='/assets/js/libs/jquery.js'></script>
+		<script src='/assets/js/flipclock.min.js'></script>
+		<script src='/assets/js/clock.js'></script>
+		<script src='/assets/js/flow.js'></script>
+		<script src='/assets/js/bootstrap.min.js'></script>
+		</div>
+	</body>
+</html>
