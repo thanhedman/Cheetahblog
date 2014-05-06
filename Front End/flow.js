@@ -35,7 +35,7 @@ function submitArgument(e) {
 function setSpeech(e) {
 	curspeech = $(".current").parent().attr('id');
 	curduration = $("#flowTable").data("times")[curspeech];
-	if (timer.getTime() <= 0 || timer.getTime() == curduration) { //isRunning would be better
+	if (! timer.running) { //isRunning would be better
 		speech = $(this).parent().attr('id');
 		duration = $("#flowTable").data("times")[speech];
 		timer.setTime( duration );

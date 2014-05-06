@@ -7,10 +7,21 @@ var timer = $('.clock').FlipClock({
 //timer start
 $("#start").click( function() {
 	timer.start();
+	timer.running = true;
+	$(".current").focus();
 	});
 
-//timer clear
+//timer stop
 $("#stop").click( function() {
 	timer.stop();
+	timer.running = false;
+});
+
+//timer clear
+$("#clear").click( function() {
+	if (timer.running) {
+		timer.stop();
+		timer.running = false;
+	}
 	timer.setTime(0);
 });

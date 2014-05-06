@@ -3,8 +3,9 @@ var router = require("./router");
 var requestHandlers = require("./requestHandlers");
 
 var handle = {};
-handle["/"] = requestHandlers.start;
-handle["/start"] = requestHandlers.start;
+handle[""] = requestHandlers.flow;
+handle["/"] = requestHandlers.flow;
+handle["/start"] = requestHandlers.flow;
 handle["/upload"] = requestHandlers.upload;
 handle["/assets/js/clock.js"] = requestHandlers.loadJs;
 handle["/assets/css/flipclock.css"] = requestHandlers.loadCss;
