@@ -1,10 +1,10 @@
 var querystring = require("querystring");
 var fs = require("fs");
 
-function start(response, postData) {
-	/*
+function start(response, postData, pathname, request) {
 	var twitterAPI = require('node-twitter-api');
 	var connect = require('connect');
+	var sess = request.session;
 	var twitter = new twitterAPI({
 		consumerKey: 'your consumer Key',
 		consumerSecret: 'your consumer secret',
@@ -16,30 +16,40 @@ function start(response, postData) {
 			console.log("Error getting OAuth request token : " + error);
 		} else {
 			//store requestToken and requestTokenSecret in session
+			sess.requestToken = requestToken;
+			sess.requestTokenSecret = requestTokenSecret;
 			response.writeHead(302, {"Location": "https://twitter.com/oauth/authenticate?oauth_token="+requestToken });
 		}
 	});
-	*/
 }
 
-function flow(response, postData) {
-	/*
+function flow(response, postData, pathname, request) {
+	var connect = require('connect');
+	var sess = request.session;
 	//oauth_verifier is stored in GET, requestToken and requestTokenSecret are stored in session
+	requestToken = sess.requestToken;
+	requestTokenSecret = sess.requestTokenSecret;
+	oauth_verifier = request.params.oauth_verifier;
 	twitter.getAccessToken(requestToken, requestTokenSecret, oauth_verifier, function(error, accessToken, accessTokenSecret, results) {
 		if (error) {
 			console.log(error);
 		} else {
-			//store accessToken and accessTokenSecret in session      
+			//store accessToken and accessTokenSecret in session
+			sess.accessToken = accessToken;
+			sess.accessTokenSecret = accessTokenSecret;			
 		}
 	});
-	*/
 	loadStatic(response, postData, "/flow.html");
 }
 
-function tweet(response, postData) {
+function tweet(response, postData, pathname, request) {
 	tweet = querystring.parse(postData).argument;
-	console.log("Tweet '" + tweet + "' submitted");
-	/*
+	//console.log("Tweet '" + tweet + "' submitted");
+	var sess = request.session;
+	sess.twitter++;
+	sess.lastTweet = tweet;
+	accessToken = sess.accessToken;
+	accessTokenSecret = sess.accessTokenSecret;
 	twitter.statuses("update", {
         status: tweet
     },
@@ -52,15 +62,11 @@ function tweet(response, postData) {
 			response.end();
         } else {
             response.writeHead(200, {"Content-Type": "application/json"});
-			response.write("{status: twitter success, data: " + data + "}");
+			response.write("{status: twitter success, data: }");
 			response.end();
         }
     }
 	);
-	*/
-	response.writeHead(200, {"Content-Type": "application/json"});
-	response.write("{status: twitter success}");
-	response.end();
 }
 
 function loadStatic(response, postData, pathname) {

@@ -15,3 +15,8 @@ button.speech{
 	position: relative;
 	left: 36%;
 }
+
+.current .argument{
+	font: verdana;
+}
+

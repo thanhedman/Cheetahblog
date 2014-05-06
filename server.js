@@ -1,27 +1,35 @@
 var http = require("http");
+var connect = require("connect");
 var url = require("url");
 
 
 
 function start(route, handle) {
-function onRequest(request, response) {
+function onRequest(req, res, next) {
 	var postData = "";
-	var pathname = url.parse(request.url).pathname;
-	//console.log("Request for " + pathname + " received.");
+	var pathname = url.parse(req.url).pathname;
+	var sess = req.session;
+
+	//console.log("Count: " + sess.twitter + " last Tweet: " + sess.lastTweet);
 	
-	request.setEncoding("utf8");
+	req.setEncoding("utf8");
 	
-	request.addListener("data", function(postDataChunk) {
+	req.addListener("data", function(postDataChunk) {
 		postData += postDataChunk;
 		//console.log("Received POST data chunk '" + postDataChunk + "'.");
 	});
 	
-	request.addListener("end", function() {
-		route(pathname, handle, response, postData);
+	req.addListener("end", function() {
+		route(pathname, handle, res, postData, req);
 	});
 	
 }
-	http.createServer(onRequest).listen(8888);
+
+	cheetah = connect.createServer();
+	cheetah.use(connect.cookieParser());
+	cheetah.use(connect.cookieSession({secret: 'Tschida!'}));
+	cheetah.use(onRequest);
+	cheetah.listen(80);
 	console.log("Server has started.");
 }
 
