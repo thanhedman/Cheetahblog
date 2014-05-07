@@ -1,0 +1,30 @@
+{
+  "name": "Cheetahblog",
+  "version": "0.0.1",
+  "description": "Debate microblogging service",
+  "main": "index.js",
+  "dependencies": {
+    "bower": "^1.3.3",
+    "connect": "^2.15.0",
+    "grunt": "^0.4.4",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "node-twitter-api": "^1.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thanhedman/Cheetahblog.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/thanhedman/Cheetahblog/issues"
+  },
+  "homepage": "https://github.com/thanhedman/Cheetahblog"
+}
