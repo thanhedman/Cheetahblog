@@ -7,6 +7,9 @@ var url = require("url");
 function start(route, handle) {
 function onRequest(req, res, next) {
 	var postData = "";
+	var oauth_verifier = "";
+	var getData = url.parse(req.url, true).query;
+	//console.log("Server sees: " + getData.oauth_verifier);
 	var pathname = url.parse(req.url).pathname;
 	var sess = req.session;
 
@@ -20,7 +23,7 @@ function onRequest(req, res, next) {
 	});
 	
 	req.addListener("end", function() {
-		route(pathname, handle, res, postData, req);
+		route(pathname, handle, res, postData, req, getData);
 	});
 	
 }

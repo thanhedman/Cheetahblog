@@ -1,14 +1,18 @@
 var querystring = require("querystring");
 var fs = require("fs");
 
+function welcome(response, postData, pathname, request) {
+	loadStatic(response, postData, "/welcome.html");
+}
+
 function start(response, postData, pathname, request) {
 	var twitterAPI = require('node-twitter-api');
 	var connect = require('connect');
 	var sess = request.session;
 	var twitter = new twitterAPI({
-		consumerKey: 'your consumer Key',
-		consumerSecret: 'your consumer secret',
-		callback: 'http://cheetahblog.com/flow'
+		consumerKey: 'fSORn4SdW6ZLSGHkT8baa6VlT',
+		consumerSecret: 'pv8s43M2eL5tkcmwcKJVMeB5uq9nszVCSH8h343TBuwGbEq8W0',
+		callback: 'http://54.219.148.68/flow'
 	});
 
 	twitter.getRequestToken(function(error, requestToken, requestTokenSecret, results){
@@ -18,18 +22,27 @@ function start(response, postData, pathname, request) {
 			//store requestToken and requestTokenSecret in session
 			sess.requestToken = requestToken;
 			sess.requestTokenSecret = requestTokenSecret;
+			console.log("OAuth token: " + requestToken + " and secret: " + requestTokenSecret);
 			response.writeHead(302, {"Location": "https://twitter.com/oauth/authenticate?oauth_token="+requestToken });
+			response.end();
 		}
 	});
 }
 
-function flow(response, postData, pathname, request) {
+function flow(response, postData, pathname, request, getData) {
+	var twitterAPI = require('node-twitter-api');
 	var connect = require('connect');
 	var sess = request.session;
 	//oauth_verifier is stored in GET, requestToken and requestTokenSecret are stored in session
 	requestToken = sess.requestToken;
 	requestTokenSecret = sess.requestTokenSecret;
-	oauth_verifier = request.params.oauth_verifier;
+	oauth_verifier = getData.oauth_verifier
+	console.log("oauth_verifier: " + oauth_verifier);
+	var twitter = new twitterAPI({
+		consumerKey: 'fSORn4SdW6ZLSGHkT8baa6VlT',
+		consumerSecret: 'pv8s43M2eL5tkcmwcKJVMeB5uq9nszVCSH8h343TBuwGbEq8W0',
+		callback: 'http://54.219.148.68/flow'
+	});
 	twitter.getAccessToken(requestToken, requestTokenSecret, oauth_verifier, function(error, accessToken, accessTokenSecret, results) {
 		if (error) {
 			console.log(error);
@@ -43,8 +56,15 @@ function flow(response, postData, pathname, request) {
 }
 
 function tweet(response, postData, pathname, request) {
+	var twitterAPI = require('node-twitter-api');
+	var twitter = new twitterAPI({
+		consumerKey: 'fSORn4SdW6ZLSGHkT8baa6VlT',
+		consumerSecret: 'pv8s43M2eL5tkcmwcKJVMeB5uq9nszVCSH8h343TBuwGbEq8W0',
+		callback: 'http://54.219.148.68/flow'
+	});
 	tweet = querystring.parse(postData).argument;
 	//console.log("Tweet '" + tweet + "' submitted");
+	var connect = require('connect');
 	var sess = request.session;
 	sess.twitter++;
 	sess.lastTweet = tweet;
@@ -57,16 +77,15 @@ function tweet(response, postData, pathname, request) {
     accessTokenSecret,
     function(error, data, response) {
         if (error) {
-            response.writeHead(200, {"Content-Type": "application/json"});
-			response.write("{status: twitter error, error: " + error + "}");
-			response.end();
+            console.log(error);
         } else {
-            response.writeHead(200, {"Content-Type": "application/json"});
-			response.write("{status: twitter success, data: }");
-			response.end();
+            console.log("Tweeted");
         }
     }
 	);
+	response.writeHead(200, {"Content-Type": "application/json"});
+	response.write("{status: twitter success}");
+	response.end();
 }
 
 function loadStatic(response, postData, pathname) {
@@ -108,4 +127,5 @@ exports.loadStatic = loadStatic;
 exports.loadCss = loadCss;
 exports.flow = flow;
 exports.tweet = tweet;
+exports.welcome = welcome;
 
