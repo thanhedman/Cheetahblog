@@ -1,0 +1,11 @@
+# Cheetahblog
+
+Environment:
+
+1. Run `npm install` to install all node module dependencies
+
+2. Run `bower install` to install frontend dependencies (jQuery, etc.)
+
+3. Run `grunt` to concatenate/copy assets to the correct directories
+
+4. Start the app
